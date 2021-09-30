@@ -1,5 +1,5 @@
-//var readlineSync = require('readline-sync');
 const fs = require('fs');
+const readline = require('readline');
 
 let transactionFileContent;
 
@@ -56,12 +56,12 @@ for (let x = 0; x < transactionsAsStrings.length; x++) {
 const accounts = [];
 
 for (let x = 0; x < transactions.length; x++) {
-  const accountsIndexFrom = checkAccountExists(transactions[x].from);
-  const accountsIndexTo = checkAccountExists(transactions[x].to);
+  const accountFrom = getOrCreateAccount(transactions[x].from);
+  const accountTo = getOrCreateAccount(transactions[x].to);
   const amount = transactions[x].amount;
 
-  accounts[accountsIndexFrom].removeFromBalance(amount);
-  accounts[accountsIndexTo].addToBalance(amount);
+  accountFrom.removeFromBalance(amount);
+  accountTo.addToBalance(amount);
 }
 
 
@@ -70,10 +70,46 @@ function removeHeader(file) {
   file.shift();
 }
 
-function checkAccountExists(accountName) {
+function getOrCreateAccount(accountName) {
   for (let x = 0; x < accounts.length; x++) {
-    if (accounts[x].name === accountName) return x;
+    if (accounts[x].name === accountName) {
+      return accounts[x]; 
+    }
   }
-  accounts.push(new Account(accountName));
-  return (accounts.length - 1);
+  const newAccount = new Account(accountName);
+  accounts.push(newAccount);
+  return newAccount;
+}
+
+//console.log(accounts);
+
+// Listall
+// for (let account of accounts) {
+//   console.log('Name: ', account.name, ' Balance: ', account.balance.toFixed(2));
+// }
+
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+
+const requestedAccount = '';
+
+rl.question('Which account would you like to see the transactions for? ', (answer) => {
+  requestedAccount += answer;
+  console.log(answer)
+  console.log(requestedAccount)
+  rl.close();
+
+
+  
+});
+
+// List Account
+console.log('Name: ', requestedAccount);
+for (let x = 0; x < transactions.length; x++) {
+  if (requestedAccount === transactions[x].name) {
+    console.log(x, ': ', transactions[x].date, transactions[x].narrative);
+  }
 }
