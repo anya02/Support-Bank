@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/anya02/Support-Bank/issues"
   },
-  "homepage": "https://github.com/anya02/Support-Bank#readme"
+  "homepage": "https://github.com/anya02/Support-Bank#readme",
+  "dependencies": {
+    "moment": "^2.29.1",
+    "readline-sync": "^1.4.10"
+  }
 }
