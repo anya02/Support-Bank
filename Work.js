@@ -94,22 +94,21 @@ const rl = readline.createInterface({
   output: process.stdout
 });
 
-const requestedAccount = '';
 
 rl.question('Which account would you like to see the transactions for? ', (answer) => {
-  requestedAccount += answer;
+  const requestedAccount = answer;
   console.log(answer)
   console.log(requestedAccount)
   rl.close();
 
-
+  // List Account
+  console.log('Name: ', requestedAccount);
+  for (let x = 0; x < transactions.length; x++) {
+    if (requestedAccount === transactions[x].name) {
+      console.log(x, ': ', transactions[x].date, transactions[x].narrative);
+    }
+  }
   
 });
 
-// List Account
-console.log('Name: ', requestedAccount);
-for (let x = 0; x < transactions.length; x++) {
-  if (requestedAccount === transactions[x].name) {
-    console.log(x, ': ', transactions[x].date, transactions[x].narrative);
-  }
-}
+console.log('end');
